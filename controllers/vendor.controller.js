@@ -10,6 +10,19 @@ exports.getVendors = async (req, res) => {
   }
 };
 
+exports.getOneVendor = async (req, res) => {
+  try {
+    const vendor = await vendorService.getOne(req.params.id);
+    if (!vendor) {
+      return res.status(404).json({ message: 'Vendor not found' });
+    }
+    res.status(200).json(vendor);
+  }
+  catch(error) {
+    res.status(500).json({ message: 'Error fetching vendor', error: error.message });
+  }
+}
+
 exports.createVendor = async (req, res) => {
   try {
     const newVendor = await vendorService.create(req.body);

@@ -5,6 +5,10 @@ exports.getAll = async () => {
   return await Manufacturer.find().sort({ createdAt: -1 });
 };
 
+exports.getOne = async (id) => {
+  return await Manufacturer.findById(id);
+}
+
 exports.create = async (data) => {
   const manufacturer = new Manufacturer(data);
   return await manufacturer.save();

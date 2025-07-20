@@ -10,6 +10,18 @@ exports.getManufacturers = async (req, res) => {
   }
 };
 
+exports.getOneManufacturer = async (req, res) => {
+  try {
+    const manufacturer = await manufacturerService.getOne(req.params.id);
+    if (!manufacturer) {
+      return res.status(404).json({ message: 'Manufacturer not found' });
+    }
+    res.status(200).json(manufacturer);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching manufacturer', error: error.message });
+  }
+}
+
 exports.createManufacturer = async (req, res) => {
   try {
     const newManufacturer = await manufacturerService.create(req.body);

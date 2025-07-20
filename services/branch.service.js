@@ -5,6 +5,10 @@ exports.getAll = async () => {
   return await Branch.find().sort({ createdAt: -1 });
 };
 
+exports.getOne = async (id) => {
+  return await Branch.findById(id); 
+}
+
 exports.create = async (data) => {
   const branch = new Branch(data);
   return await branch.save();

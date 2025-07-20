@@ -1,8 +1,13 @@
 const AssetSubcategory = require('../models/AssetSubcategory');
 
 exports.getAll = async () => {
-  return await AssetSubcategory.find().populate('categoryId');
+  const result = await AssetSubcategory.find().populate('categoryId'); 
+  return result;
 };
+
+exports.getOne = async (id) => {
+  return await AssetSubcategory.findById(id).populate('categoryId');
+}
 
 exports.create = async (data) => {
   const subcat = new AssetSubcategory(data);

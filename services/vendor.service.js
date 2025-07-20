@@ -4,6 +4,9 @@ const Vendor = require('../models/Vendor');
 exports.getAll = async () => {
   return await Vendor.find().sort({ createdAt: -1 });
 };
+exports.getOne = async (id) => {
+  return await Vendor.findById(id);
+}
 
 exports.create = async (data) => {
   const vendor = new Vendor(data);

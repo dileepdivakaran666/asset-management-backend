@@ -8,6 +8,18 @@ exports.getAssetSubcategories = async (req, res) => {
     res.status(500).json({ message: 'Server Error', error });
   }
 };
+exports.getOneAssetSubcategories = async (req, res) => {
+  try {
+    const subcategory = await subcategoryService.getOne(req.params.id);
+    if (!subcategory) {
+      return res.status(404).json({ message: 'Subcategory not found' });
+    }
+    res.status(200).json(subcategory);  
+  }
+  catch (error) {
+    res.status(500).json({ message: 'Error fetching subcategory', error: error.message });
+  }
+} 
 
 exports.createAssetSubcategory = async (req, res) => {
   try {

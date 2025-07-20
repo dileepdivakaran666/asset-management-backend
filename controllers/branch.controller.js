@@ -10,6 +10,19 @@ exports.getBranches = async (req, res) => {
   }
 };
 
+exports.getOneBranch = async (req, res) => {
+  try {
+    const branch = await branchService.getOne(req.params.id);
+    if (!branch) {
+      return res.status(404).json({ message: 'Branch not found' });
+    }
+    res.status(200).json(branch);
+  }
+  catch (error) {
+    res.status(500).json({ message: 'Error fetching branch', error: error.message });
+  }
+}
+
 exports.createBranch = async (req, res) => {
   try {
     const newBranch = await branchService.create(req.body);

@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const {
   getAssetCategories,
+  getOneAssetCategory,
   createAssetCategory,
   updateAssetCategory,
   deleteAssetCategory,
@@ -10,6 +11,7 @@ const {
 
 // CRUD routes
 router.get('/', getAssetCategories);
+router.get('/:id', getOneAssetCategory);
 router.post('/', createAssetCategory);
 router.put('/:id', updateAssetCategory);
 router.delete('/:id', deleteAssetCategory);
