@@ -29,6 +29,23 @@ exports.getAllGRNs = async () => {
     .sort({ createdAt: -1 });
 };
 
+exports.getOneGRN = async (id) => {
+  const GRNHeaderResult = await GRNHeader.findById(id)
+      .populate('vendorId')
+      .populate('branchId');
+    
+    if (!GRNHeaderResult) {
+      return null; // or throw new Error('GRN not found');
+    }
+
+    const GRNLineItems = await GRNLineItem.find({ grnId: id }).populate('subcategoryId');
+   
+    const grn = GRNHeaderResult.toObject();
+    grn.lineItems = GRNLineItems;
+    
+    return grn;
+};
+
 exports.getLineItemsByGrnId = async (grnId) => {
   return await GRNLineItem.find({ grnId }).populate('subcategoryId');
 };
@@ -183,4 +200,35 @@ exports.exportAssetSummaryReport = async () => {
 
   const buffer = await workbook.xlsx.writeBuffer();
   return buffer;
+};
+
+exports.fetchGRNReport = async (filters) => {
+  const { from, to, vendor, branch } = filters;
+
+  const query = {};
+
+  // Date Range
+  if (from && to) {
+    query.grnDate = {
+      $gte: new Date(from),
+      $lte: new Date(to),
+    };
+  }
+
+  // Vendor Filter
+  if (vendor) {
+    query.vendorId = vendor;
+  }
+
+  // Branch Filter
+  if (branch) {
+    query.branchId = branch;
+  }
+
+  const grns = await GRNHeader.find(query)
+    .populate("vendorId")
+    .populate("branchId")
+    .sort({ grnDate: -1 });
+
+  return grns;
 };

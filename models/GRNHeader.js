@@ -7,7 +7,8 @@ const grnHeaderSchema = new mongoose.Schema(
     invoiceNumber: { type: String, required: true },
     vendorId: { type: mongoose.Schema.Types.ObjectId, ref: 'Vendor', required: true },
     branchId: { type: mongoose.Schema.Types.ObjectId, ref: 'Branch', required: true },
-    status: { type: String, enum: ['draft', 'submitted'], default: 'draft' }
+    status: { type: String, enum: ['draft', 'submitted'], default: 'draft' },
+    grandTotal: { type: Number },
   },
   { timestamps: true }
 );

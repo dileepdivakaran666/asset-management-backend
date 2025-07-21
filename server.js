@@ -10,6 +10,8 @@ const branchRoutes = require('./routes/branch.route');
 const vendorRoutes = require('./routes/vendor.route');
 const manufacturerRoutes = require('./routes/manufacturer.route');
 const grnRoutes = require('./routes/grn.route');
+const grnReportRoutes = require('./routes/grnReport.route');
+const assetSummeryReportRoutes = require('./routes/assetSummeryReport');
 
 
 
@@ -31,5 +33,7 @@ app.use('/api/v1/branches', branchRoutes);
 app.use('/api/v1/vendors', vendorRoutes);
 app.use('/api/v1/manufacturers', manufacturerRoutes);
 app.use('/api/v1/grns', grnRoutes);
+app.use('/api/v1/grn-reports', grnReportRoutes);
+app.use('/api/v1/asset-summary', assetSummeryReportRoutes);
 
 app.listen(process.env.PORT || 5000, ()=>console.log(`Server running on PORT ${process.env.PORT}`))
