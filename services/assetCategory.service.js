@@ -1,5 +1,6 @@
 // services/assetCategory.service.js
 const AssetCategory = require('../models/AssetCategory');
+const AssetSubcategory = require('../models/AssetSubcategory');
 
 exports.getAll = async () => {
   return await AssetCategory.find().sort({ createdAt: -1 });
@@ -19,5 +20,13 @@ exports.update = async (id, data) => {
 };
 
 exports.remove = async (id) => {
-  return await AssetCategory.findByIdAndDelete(id);
+  // 1. Delete the main category
+  const deletedCategory = await AssetCategory.findByIdAndDelete(id);
+
+  // 2. If the category was found and deleted, delete its subcategories
+  if (deletedCategory) {
+    await AssetSubcategory.deleteMany({ categoryId: id });
+  }
+
+  return deletedCategory;
 };
