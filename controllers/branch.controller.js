@@ -17,11 +17,10 @@ exports.getOneBranch = async (req, res) => {
       return res.status(404).json({ message: 'Branch not found' });
     }
     res.status(200).json(branch);
-  }
-  catch (error) {
+  } catch (error) {
     res.status(500).json({ message: 'Error fetching branch', error: error.message });
   }
-}
+};
 
 exports.createBranch = async (req, res) => {
   try {

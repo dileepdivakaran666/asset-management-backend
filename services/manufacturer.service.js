@@ -7,7 +7,7 @@ exports.getAll = async () => {
 
 exports.getOne = async (id) => {
   return await Manufacturer.findById(id);
-}
+};
 
 exports.create = async (data) => {
   const manufacturer = new Manufacturer(data);

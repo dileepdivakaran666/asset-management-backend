@@ -5,11 +5,11 @@ const assetSubcategorySchema = new mongoose.Schema(
     categoryId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'AssetCategory',
-      required: true
+      required: true,
     },
     name: { type: String, required: true },
     description: String,
-    status: { type: Boolean, default: true }
+    status: { type: Boolean, default: true },
   },
   { timestamps: true }
 );

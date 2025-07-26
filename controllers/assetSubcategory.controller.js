@@ -14,12 +14,11 @@ exports.getOneAssetSubcategories = async (req, res) => {
     if (!subcategory) {
       return res.status(404).json({ message: 'Subcategory not found' });
     }
-    res.status(200).json(subcategory);  
-  }
-  catch (error) {
+    res.status(200).json(subcategory);
+  } catch (error) {
     res.status(500).json({ message: 'Error fetching subcategory', error: error.message });
   }
-} 
+};
 
 exports.createAssetSubcategory = async (req, res) => {
   try {

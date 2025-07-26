@@ -6,7 +6,7 @@ const branchSchema = new mongoose.Schema(
     name: { type: String, required: true },
     location: { type: String },
     code: { type: String, required: true, unique: true },
-    status: { type: Boolean, default: true }
+    status: { type: Boolean, default: true },
   },
   { timestamps: true }
 );

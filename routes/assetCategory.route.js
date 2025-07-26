@@ -8,12 +8,14 @@ const {
   updateAssetCategory,
   deleteAssetCategory,
 } = require('../controllers/assetCategory.controller');
+const { validateAssetCategory, validateIdParam } = require('../validators/assetCategory.validator');
+const validate = require('../middlewares/validate');
 
 // CRUD routes
 router.get('/', getAssetCategories);
-router.get('/:id', getOneAssetCategory);
-router.post('/', createAssetCategory);
-router.put('/:id', updateAssetCategory);
-router.delete('/:id', deleteAssetCategory);
+router.get('/:id', validateIdParam, validate, getOneAssetCategory);
+router.post('/', validateAssetCategory, validate, createAssetCategory);
+router.put('/:id', validateIdParam, validate, updateAssetCategory);
+router.delete('/:id', validateIdParam, validate, deleteAssetCategory);
 
 module.exports = router;

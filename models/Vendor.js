@@ -8,7 +8,7 @@ const vendorSchema = new mongoose.Schema(
     email: { type: String },
     phone: { type: String },
     address: { type: String },
-    gstNumber: { type: String }
+    gstNumber: { type: String },
   },
   { timestamps: true }
 );

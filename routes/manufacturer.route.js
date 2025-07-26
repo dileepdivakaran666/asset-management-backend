@@ -6,13 +6,15 @@ const {
   getOneManufacturer,
   createManufacturer,
   updateManufacturer,
-  deleteManufacturer
+  deleteManufacturer,
 } = require('../controllers/manufacturer.controller');
+const { validateManufacturer, validateIdParam } = require('../validators/manufacturer.validator');
+const validate = require('../middlewares/validate');
 
 router.get('/', getManufacturers);
-router.get('/:id', getOneManufacturer);
-router.post('/', createManufacturer);
-router.put('/:id', updateManufacturer);
-router.delete('/:id', deleteManufacturer);
+router.get('/:id',validateIdParam, validate, getOneManufacturer);
+router.post('/',validateManufacturer, validate, createManufacturer);
+router.put('/:id',validateIdParam, validateManufacturer, validate, updateManufacturer);
+router.delete('/:id',validateIdParam, validate, deleteManufacturer);
 
 module.exports = router;

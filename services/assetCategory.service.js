@@ -7,8 +7,8 @@ exports.getAll = async () => {
 };
 
 exports.getOne = async (id) => {
-  return await AssetCategory.findById(id); 
-}
+  return await AssetCategory.findById(id);
+};
 
 exports.create = async (data) => {
   const newCategory = new AssetCategory(data);

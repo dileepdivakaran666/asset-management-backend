@@ -1,6 +1,5 @@
 const GRNHeader = require('../models/GRNHeader');
 
-
 exports.fetchGRNReport = async (filters) => {
   const { from, to, vendor, branch } = filters;
 
@@ -25,8 +24,8 @@ exports.fetchGRNReport = async (filters) => {
   }
 
   const grns = await GRNHeader.find(query)
-    .populate("vendorId")
-    .populate("branchId")
+    .populate('vendorId')
+    .populate('branchId')
     .sort({ grnDate: -1 });
 
   return grns;

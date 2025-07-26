@@ -6,13 +6,15 @@ const {
   getOneVendor,
   createVendor,
   updateVendor,
-  deleteVendor
+  deleteVendor,
 } = require('../controllers/vendor.controller');
+const { validateVendor, validateIdParam } = require('../validators/vendor.validator');
+const validate = require('../middlewares/validate');
 
 router.get('/', getVendors);
-router.get('/:id', getOneVendor)
-router.post('/', createVendor);
-router.put('/:id', updateVendor);
-router.delete('/:id', deleteVendor);
+router.get('/:id', validateIdParam, validate, getOneVendor);
+router.post('/', validateVendor, validate, createVendor);
+router.put('/:id', validateIdParam, validateVendor, validate, updateVendor);
+router.delete('/:id', validateIdParam, validate, deleteVendor);
 
 module.exports = router;

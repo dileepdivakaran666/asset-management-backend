@@ -6,14 +6,15 @@ const {
   getOneBranch,
   createBranch,
   updateBranch,
-  deleteBranch
+  deleteBranch,
 } = require('../controllers/branch.controller');
-const { route } = require('./grn.route');
+const { validateBranch, validateIdParam } = require('../validators/branch.validator');
+const validate = require('../middlewares/validate');
 
 router.get('/', getBranches);
-router.get('/:id', getOneBranch);
-router.post('/', createBranch);
-router.put('/:id', updateBranch);
-router.delete('/:id', deleteBranch);
+router.get('/:id',validateIdParam, validate, getOneBranch);
+router.post('/',validateBranch, validate, createBranch);
+router.put('/:id',validateIdParam, validateBranch,validate, updateBranch);
+router.delete('/:id',validateIdParam, validate, deleteBranch);
 
 module.exports = router;

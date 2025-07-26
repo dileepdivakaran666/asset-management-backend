@@ -20,7 +20,7 @@ exports.getOneManufacturer = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: 'Error fetching manufacturer', error: error.message });
   }
-}
+};
 
 exports.createManufacturer = async (req, res) => {
   try {

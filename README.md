@@ -1,4 +1,3 @@
-
 ---
 
 ### ✅ `server/README.md` (Backend)
@@ -33,7 +32,6 @@ server/
 ├── server.js # Main entry point
 └── .env # Environment variables
 
-
 ---
 
 ## 📦 Installation
@@ -45,6 +43,7 @@ npm install
 ```
 
 ## Create a .env file inside /server:
+
 PORT=5000
 MONGO_URI=mongodb://localhost:27017/asset_management
 
@@ -54,5 +53,5 @@ MONGO_URI=mongodb://localhost:27017/asset_management
 npm run dev
 
 ```
-The server will run at: http://localhost:5000
 
+The server will run at: http://localhost:5000

@@ -6,7 +6,7 @@ exports.getAll = async () => {
 };
 exports.getOne = async (id) => {
   return await Vendor.findById(id);
-}
+};
 
 exports.create = async (data) => {
   const vendor = new Vendor(data);

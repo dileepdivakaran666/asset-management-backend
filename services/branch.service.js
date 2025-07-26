@@ -6,8 +6,8 @@ exports.getAll = async () => {
 };
 
 exports.getOne = async (id) => {
-  return await Branch.findById(id); 
-}
+  return await Branch.findById(id);
+};
 
 exports.create = async (data) => {
   const branch = new Branch(data);

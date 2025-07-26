@@ -4,24 +4,21 @@ const {
   createGRN,
   getOneGrn,
   getAllGRNs,
-  getLineItems,
   updateGRN,
   deleteGRN,
-  getGRNReport, 
-  exportGRNReport,
-  // exportGRNs,
-  // exportAssetSummary 
+  // getGRNReport,
+  // exportGRNReport,
 } = require('../controllers/grn.controller');
+const { validateGRN, validateIdParam } = require('../validators/grn.validator');
+const validate = require('../middlewares/validate');
 
-router.get("/report/export", exportGRNReport);
-router.get('/report', getGRNReport);
+// router.get('/report/export', exportGRNReport);
+// router.get('/report', getGRNReport);
 router.get('/', getAllGRNs);
-router.get('/:id', getOneGrn);
-router.get('/:grnId/line-items', getLineItems);
-router.post('/', createGRN);
-router.put('/:grnId', updateGRN);
-router.delete('/:grnId', deleteGRN);
-// router.get('/export', exportGRNs);
-// router.get('/export-summary', exportAssetSummary);
+router.get('/:id', validateIdParam, validate, getOneGrn);
+// router.get('/:grnId/line-items', getLineItems);
+router.post('/', validateGRN, validate, createGRN);
+router.put('/:id', validateIdParam, validateGRN, validate, updateGRN);
+router.delete('/:id', validateIdParam, deleteGRN);
 
 module.exports = router;

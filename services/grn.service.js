@@ -16,39 +16,34 @@ exports.createGRN = async (grnData, lineItems, status) => {
   // grnData.grnNumber = await generateGrnNumber();
 
   const grnHeader = await GRNHeader.create(grnData);
-  const items = lineItems.map(item => ({ ...item, grnId: grnHeader._id }));
+  const items = lineItems.map((item) => ({ ...item, grnId: grnHeader._id }));
   await GRNLineItem.insertMany(items);
 
   return { grnHeader, lineItems: items };
 };
 
 exports.getAllGRNs = async () => {
-  return await GRNHeader.find()
-    .populate('vendorId')
-    .populate('branchId')
-    .sort({ createdAt: -1 });
+  return await GRNHeader.find().populate('vendorId').populate('branchId').sort({ createdAt: -1 });
 };
 
 exports.getOneGRN = async (id) => {
-  const GRNHeaderResult = await GRNHeader.findById(id)
-      .populate('vendorId')
-      .populate('branchId');
-    
-    if (!GRNHeaderResult) {
-      return null; // or throw new Error('GRN not found');
-    }
+  const GRNHeaderResult = await GRNHeader.findById(id).populate('vendorId').populate('branchId');
 
-    const GRNLineItems = await GRNLineItem.find({ grnId: id }).populate('subcategoryId');
-   
-    const grn = GRNHeaderResult.toObject();
-    grn.lineItems = GRNLineItems;
-    
-    return grn;
+  if (!GRNHeaderResult) {
+    return null; // or throw new Error('GRN not found');
+  }
+
+  const GRNLineItems = await GRNLineItem.find({ grnId: id }).populate('subcategoryId');
+
+  const grn = GRNHeaderResult.toObject();
+  grn.lineItems = GRNLineItems;
+
+  return grn;
 };
 
-exports.getLineItemsByGrnId = async (grnId) => {
-  return await GRNLineItem.find({ grnId }).populate('subcategoryId');
-};
+// exports.getLineItemsByGrnId = async (grnId) => {
+//   return await GRNLineItem.find({ grnId }).populate('subcategoryId');
+// };
 
 // UPDATE GRN
 exports.updateGRN = async (grnId, grnData, lineItems) => {
@@ -66,7 +61,7 @@ exports.updateGRN = async (grnId, grnData, lineItems) => {
       ...item,
       grnId,
       taxableValue,
-      totalAmount
+      totalAmount,
     };
   });
 
@@ -99,11 +94,11 @@ exports.exportGRNsToExcel = async () => {
     { header: 'Vendor Name', key: 'vendorName', width: 30 },
     { header: 'Branch', key: 'branchName', width: 20 },
     { header: 'Status', key: 'status', width: 15 },
-    { header: 'Created At', key: 'createdAt', width: 25 }
+    { header: 'Created At', key: 'createdAt', width: 25 },
   ];
 
   // Fill data rows
-  grns.forEach(grn => {
+  grns.forEach((grn) => {
     worksheet.addRow({
       grnNumber: grn.grnNumber,
       grnDate: grn.grnDate.toISOString().split('T')[0],
@@ -111,7 +106,7 @@ exports.exportGRNsToExcel = async () => {
       vendorName: grn.vendorId?.name || 'N/A',
       branchName: grn.branchId?.name || 'N/A',
       status: grn.status,
-      createdAt: grn.createdAt.toISOString()
+      createdAt: grn.createdAt.toISOString(),
     });
   });
 
@@ -131,8 +126,8 @@ exports.exportAssetSummaryReport = async () => {
         from: 'grnheaders',
         localField: 'grnId',
         foreignField: '_id',
-        as: 'grnHeader'
-      }
+        as: 'grnHeader',
+      },
     },
     { $unwind: '$grnHeader' },
     {
@@ -140,8 +135,8 @@ exports.exportAssetSummaryReport = async () => {
         from: 'assetsubcategories',
         localField: 'subcategoryId',
         foreignField: '_id',
-        as: 'subcategory'
-      }
+        as: 'subcategory',
+      },
     },
     { $unwind: '$subcategory' },
     {
@@ -149,8 +144,8 @@ exports.exportAssetSummaryReport = async () => {
         from: 'assetcategories',
         localField: 'subcategory.categoryId',
         foreignField: '_id',
-        as: 'category'
-      }
+        as: 'category',
+      },
     },
     { $unwind: '$category' },
     {
@@ -158,28 +153,28 @@ exports.exportAssetSummaryReport = async () => {
         from: 'branches',
         localField: 'grnHeader.branchId',
         foreignField: '_id',
-        as: 'branch'
-      }
+        as: 'branch',
+      },
     },
     { $unwind: '$branch' },
     {
       $group: {
         _id: {
           category: '$category.name',
-          branch: '$branch.name'
+          branch: '$branch.name',
         },
-        assetCount: { $sum: '$quantity' }
-      }
+        assetCount: { $sum: '$quantity' },
+      },
     },
     {
       $project: {
         _id: 0,
         category: '$_id.category',
         branch: '$_id.branch',
-        assetCount: 1
-      }
+        assetCount: 1,
+      },
     },
-    { $sort: { category: 1, branch: 1 } }
+    { $sort: { category: 1, branch: 1 } },
   ]);
 
   // Generate Excel
@@ -189,10 +184,10 @@ exports.exportAssetSummaryReport = async () => {
   worksheet.columns = [
     { header: 'Category Name', key: 'category', width: 30 },
     { header: 'Branch Name', key: 'branch', width: 30 },
-    { header: 'Asset Count', key: 'assetCount', width: 15 }
+    { header: 'Asset Count', key: 'assetCount', width: 15 },
   ];
 
-  result.forEach(row => {
+  result.forEach((row) => {
     worksheet.addRow(row);
   });
 
@@ -226,8 +221,8 @@ exports.fetchGRNReport = async (filters) => {
   }
 
   const grns = await GRNHeader.find(query)
-    .populate("vendorId")
-    .populate("branchId")
+    .populate('vendorId')
+    .populate('branchId')
     .sort({ grnDate: -1 });
 
   return grns;
