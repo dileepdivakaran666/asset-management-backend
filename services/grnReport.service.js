@@ -3,7 +3,9 @@ const GRNHeader = require('../models/GRNHeader');
 exports.fetchGRNReport = async (filters) => {
   const { from, to, vendor, branch } = filters;
 
-  const query = {};
+  const query = {
+    status: { $ne: 'draft' },
+  };
 
   // Date Range
   if (from && to) {
