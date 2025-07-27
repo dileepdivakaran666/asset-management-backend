@@ -55,7 +55,7 @@ exports.updateGRN = async (req, res) => {
 
 exports.deleteGRN = async (req, res) => {
   try {
-    await grnService.deleteGRN(req.params.grnId);
+    await grnService.deleteGRN(req.params.id);
     res.status(200).json({ message: 'GRN deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Failed to delete GRN', error });

@@ -19,6 +19,6 @@ router.get('/:id', validateIdParam, validate, getOneGrn);
 // router.get('/:grnId/line-items', getLineItems);
 router.post('/', validateGRN, validate, createGRN);
 router.put('/:id', validateIdParam, validateGRN, validate, updateGRN);
-router.delete('/:id', validateIdParam, deleteGRN);
+router.delete('/:id', validateIdParam,validate, deleteGRN);
 
 module.exports = router;
